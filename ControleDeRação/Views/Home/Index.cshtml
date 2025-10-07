@@ -1,0 +1,62 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+       * body {
+           background-color: #735945;
+        }
+        .text-center, img, .logo {
+            padding-top: 40px;
+        }
+
+        .container{
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        .btnbtn-primary {
+            padding: 10px 100px;
+            font-size: 27px;
+            background-color: #735945;
+            border-radius: 10px;
+            color: white;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btnbtn-primary:hover{
+            background-color: beige;
+            color: black;
+        }
+            
+        header{
+            background-color: #ab9680;
+            padding-bottom: 60px;
+            margin:80px;
+            border-radius: 20px;
+        }
+
+    
+
+    </style>
+
+    <header>
+    <div class="text-center">
+        <img src="~/lib/logo.jpg" alt="lOGO DO SITE" width="30%" {style="padding" }/>
+        <h1 class="logo">HORA DA RAÇÃO</h1>
+    </div>
+    <div class="container">
+        <a class="btnbtn-primary" asp-controller="Home" asp-action="Menu">Menu</a>
+    </div>
+    </header>
+</body>
+</html>
