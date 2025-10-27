@@ -3,65 +3,43 @@
 *@
 @{
 }
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title></title>
-    <style>
-        * body {
-            background-color: #735945;
-        }
 
-        .menu {
-            text-align: center;
-            padding-top: 20px;
-        }
-        .menu nav flex-column {
-            padding: 10px 100px ;
-            font-size: 27px;
-            background-color: #735945;
-            border-radius: 10px;
-            color: white;
-            border: none;
-            cursor: pointer;
-            text-decoration: none;
-        }
-        .menu ul {
-            list-style: none; /* tira as bolinhas */
-            margin: 0;
-            padding: 0;
-            display: flex; /* coloca os itens lado a lado */
-            justify-content: center; /* centraliza */
-            gap: 30px; /* espaçamento entre itens */
-         }
-         .menu li a {
-             color: #fff; /* cor do texto */
-             text-decoration: none; /* tira o sublinhado */
-             font-weight: 500;
-             font-size: 18px;
-             padding: 8px 12px;
-             transition: 0.3s ease;
-            }
-            .menu li a:hover {
-                background-color: #555; /* muda a cor quando passa o mouse */
-                border-radius: 6px;
-            }
-        
-    </style>
-</head>
-
-<body>
-    <h4>Controle Pet</h4>
-    <div class="menu">
-         
-        <ul class="nav flex-column">
-            <li class ="nav-item mb-2"><a class="nav-link text-white" asp-controller="Pet" asp-action="Index"> Pets</a></li>
-            <li class="nav-item mb-2"><a class="nav-link text-white" asp-controller="Racao" asp-action="Index"> Controle de Ração</a></li>
-            <li class="nav-item mb-2"><a class="nav-link text-white" asp-controller="Agenda" asp-action="Index"> Agenda de Alimentação</a></li>
-            <li class="nav-item mb-2"><a class="nav-link text-white" asp-controller="Relatorios" asp-action="Index"></i> Relatórios</a></li>
-        </ul>
+<aside class="sidebar-menu">
+    <div class="menu-title-container">
+        <h2 class="menu-title">MENU</h2>
     </div>
-</body>
-</html>
+
+    <nav>
+        <div class="menu-list-container">
+            <div class="menu-item-wrapper">
+                <a class="btn btn-primary menu-link-asp"
+                   asp-controller="Pet" asp-action="Cadastrar">CADASTRAR PET</a>
+            </div>
+
+            <div class="menu-item-wrapper">
+                <a class="btn btn-primary menu-link-asp"
+                   asp-controller="Racao" asp-action="Controle">CONTROLE DE RAÇÃO</a>
+            </div>
+
+            <div class="menu-item-wrapper">
+                <a class="btn btn-primary menu-link-asp"
+                   asp-controller="Alimentacao" asp-action="Agenda">AGENDA DE ALIMENTAÇÃO</a>
+            </div>
+
+            <div class="menu-item-wrapper">
+                <a class="btn btn-primary menu-link-asp"
+                   asp-controller="Relatorios" asp-action="Listar">RELATÓRIOS</a>
+            </div>
+            
+            <div class="menu-item-wrapper">
+
+                <a class="btn btn-primary menu-link-asp"
+                
+                   asp-controller="Pet" asp-action="Codigo">CÓDIGO PET</a> 
+
+            </div>
+
+            <a class="btn btn-primary" type="button" asp-controller="Home" asp-action="Index" style="width: 200px; margin: 20px auto 0 auto; display: block;"> Voltar</a>
+        </div>
+    </nav>
+</aside>

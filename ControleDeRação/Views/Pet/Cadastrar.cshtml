@@ -1,0 +1,39 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<main class="content">
+    <div class="content-box">
+        <h2 class="box-title">CADASTRAR PET</h2>
+        <form>
+            <div class="form-group">
+                <label for="nome">Nome do Pet</label>
+                <input type="text" id="nome" name="nome" required>
+            </div>
+            <div class="form-group">
+                <label for="idade">Idade</label>
+                <input type="number" id="idade" name="idade">
+            </div>
+            <div class="form-group">
+                <label for="peso">Peso</label>
+                <input type="number" step="0.01" id="peso" name="peso">
+            </div>
+            <div class="form-group">
+                <label for="marca_racao">Marca da ração</label>
+                <input type="text" id="marca_racao" name="marca_racao">
+            </div>
+
+            <div class="btn-group">
+                <button type="submit" class="btn btn-save">SALVAR</button>
+                <a class="btn btn-primary" type="button" asp-controller="Home" asp-action="Menu"> Voltar</a>
+            </div>
+
+            <div class="form-group" style="margin-top: 30px;">
+                <label for="codigo_pet">Código PET</label>
+                <input type="text" id="codigo_pet" name="codigo_pet" disabled placeholder="Gerado automaticamente após salvar">
+            </div>
+        </form>
+    </div>
+</main>

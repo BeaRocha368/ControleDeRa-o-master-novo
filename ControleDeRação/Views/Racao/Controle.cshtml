@@ -1,0 +1,41 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<main class="content">
+    <div class="content-box">
+        <h2 class="box-title">CONTROLE DE RAÇÃO</h2>
+        <form method="post" asp-controller="Racao" asp-action="AtualizarEstoque">
+
+            <div class="form-group">
+                <label for="quantidade_comprada">Quantidade comprada</label>
+                <input type="number" step="0.1" id="quantidade_comprada" name="quantidade_comprada" placeholder="Em KG">
+                <span style="float: right; margin-top: -30px; margin-right: 5px;">KG</span>
+            </div>
+
+            <div class="form-group">
+                <label for="consumo_diario">Consumo diário</label>
+                <input type="number" step="0.1" id="consumo_diario" name="consumo_diario" placeholder="Em KG">
+                <span style="float: right; margin-top: -30px; margin-right: 5px;">KG</span>
+            </div>
+
+            <div class="form-group">
+                <label for="estoque_atual">Estoque atual</label>
+                <input type="text" id="estoque_atual" name="estoque_atual" value="XX" disabled>
+                <span style="float: right; margin-top: -30px; margin-right: 5px;">KG</span>
+            </div>
+
+            <div class="alert-box">
+                ALERTA! ESTOQUE BAIXO
+            </div>
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-action btn-edit">EDITAR</button>
+                <button type="submit" class="btn btn-action btn-save">SALVAR</button>
+            </div>
+            <a class="btn btn-primary" type="button" asp-controller="Home" asp-action="Menu" style="margin-top: 10px"> Voltar</a>
+        </form>
+    </div>
+</main>
