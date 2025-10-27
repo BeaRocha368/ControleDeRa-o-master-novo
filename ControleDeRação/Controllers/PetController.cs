@@ -33,5 +33,28 @@ namespace ControleDeRação.Controllers
             // Lógica para buscar o código do último pet cadastrado ou de um pet específico
             return View();
         }
+        // ... (Actions Cadastrar, etc.)
+
+        // Action: /Pet/Codigo (Mapeia para asp-action="Codigo")
+        // 1. Exibe o formulário de consulta de código.
+
+        // Action POST: Recebe o código digitado e busca o pet
+        [HttpPost]
+        public IActionResult ConsultarCodigo(string codigo)
+        {
+            // 1. CHAMA O MODEL: Busca o pet no banco de dados usando o 'codigo'.
+            // Pet petEncontrado = _petModel.BuscarPorCodigo(codigo);
+
+            // 2. Se pet encontrado, retorna a view com os dados do pet.
+            // if (petEncontrado != null)
+            // {
+            //     return View("ResultadoConsulta", petEncontrado);
+            // }
+
+            // 3. Se não encontrado, retorna à tela de consulta com mensagem de erro.
+            TempData["MensagemErro"] = "Código PET não encontrado.";
+            return RedirectToAction("Codigo");
+        }
     }
 }
+

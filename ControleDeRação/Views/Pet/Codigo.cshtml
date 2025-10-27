@@ -1,0 +1,43 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@{
+    // Usado para exibir mensagens de erro do Controller (como o código não encontrado)
+    string mensagemErro = TempData["MensagemErro"] as string;
+}
+
+<main class="content">
+    <div class="content-box">
+        <h2 class="box-title">CÓDIGO PET</h2>
+
+        <form method="post" asp-controller="Pet" asp-action="ConsultarCodigo">
+
+            @if (!string.IsNullOrEmpty(mensagemErro))
+            {
+                <div class="alert-box" style="background-color: #ffc107; margin-bottom: 20px;">
+                    @mensagemErro
+                </div>
+            }
+
+            <div class="form-group" style="max-width: 400px; margin: 0 auto 20px auto;">
+                <label for="codigoInput" style="text-align: center; display: block;">Digite o Código PET:</label>
+                <input type="text" id="codigoInput" name="codigo" required class="form-control" placeholder="Ex: A1B2C3D4">
+            </div>
+
+            <div class="btn-group" style="justify-content: center;">
+                <button type="submit" class="btn btn-action btn-save">BUSCAR PET</button>
+            </div>
+            <a class="btn btn-primary" type="button" asp-controller="Home" asp-action="Menu" style="margin-top: 10px;"> Voltar</a>
+        </form>
+
+        <hr style="margin-top: 40px; margin-bottom: 40px;" />
+
+        <div id="resultadoConsulta" style="min-height: 150px;">
+            <p style="text-align: center; color: #555;">O resultado da busca aparecerá aqui após a consulta.</p>
+        </div>
+
+    </div>
+</main>
