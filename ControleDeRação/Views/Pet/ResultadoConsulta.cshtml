@@ -1,7 +1,63 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model ControleDeRação.Models.Pet
+
 @{
+    ViewData["Title"] = "Resultado da Consulta";
 }
 
-<p>Aqui precisar estar o backend da busca do pet!</p>
+<main class="content">
+    <div class="content-box">
+        <h2 class="box-title">Detalhes do Pet e Código de Acesso</h2>
+
+        <div class="alert alert-success text-center mb-4" role="alert">
+            <h4 class="alert-heading">Código PET para Acesso/Compartilhamento:</h4>
+            <p class="h1 font-weight-bold">@Model.CodigoAcesso</p>
+            <hr>
+            <p class="mb-0">Use este código para acessar as informações de racionamento deste Pet.</p>
+        </div>
+
+        <h3 class="mb-3">Informações Cadastradas</h3>
+
+        <dl class="row">
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.Nome)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Nome)
+            </dd>
+
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.Idade)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Idade) anos
+            </dd>
+
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.Peso)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Peso) kg
+            </dd>
+
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.MarcaRacao)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.MarcaRacao)
+            </dd>
+        </dl>
+
+        <hr />
+
+        <div class="btn-group">
+            <a asp-controller="Alimentacao" asp-action="Controle" asp-route-codigo="@Model.CodigoAcesso" class="btn btn-primary">
+                Ir para Controle de Ração
+            </a>
+
+            <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">
+                Voltar ao Início
+            </a>
+        </div>
+
+    </div>
+</main>
