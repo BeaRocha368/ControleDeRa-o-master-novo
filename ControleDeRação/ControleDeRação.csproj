@@ -7,8 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Mapeamento\" />
-    <Folder Include="Data\Repositorio\" />
     <Folder Include="Imagens\" />
   </ItemGroup>
 
