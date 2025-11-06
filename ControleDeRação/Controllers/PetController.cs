@@ -3,6 +3,7 @@ using ControleDeRação.Models;
 using ControleDeRação.Data;
 using Microsoft.EntityFrameworkCore;
 using ControleDeRação.Data.Repositorio.Interfaces.IPetRepositorio;
+using ControleDeRação.Helpers;
 
 namespace ControleDeRação.Controllers
 {
@@ -28,6 +29,8 @@ namespace ControleDeRação.Controllers
         {
             if (ModelState.IsValid)
             {
+                novoPet.CodigoAcesso = CodigoPetHelper.GerarCodigoCurto(6);
+
                 await _petRepositorio.Adicionar(novoPet);
 
                 return RedirectToAction("ResultadoConsulta", new { codigo = novoPet.CodigoAcesso });
@@ -38,22 +41,26 @@ namespace ControleDeRação.Controllers
         [HttpPost]
         public async Task<IActionResult> ConsultarCodigo(string codigo)
         {
-            if (Guid.TryParse(codigo, out Guid codigoGuid))
-            {
-                var petEncontrado = await _petRepositorio.BuscarPorCodigo(codigoGuid);
+            var petEncontrado = await _petRepositorio.BuscarPorCodigo(codigo);
 
-                if (petEncontrado != null)
-                {
-                    return View("ResultadoConsulta", petEncontrado);
-                }
+            if (petEncontrado != null)
+            {
+                
+                return RedirectToAction("Controle", "Racao");
             }
+                        
+            TempData["MensagemErro"] = "Código PET não encontrado ou inválido.";
             return RedirectToAction("Codigo");
         }
-
-        public async Task<IActionResult> ResultadoConsulta(Guid codigo)
+        public async Task<IActionResult> ResultadoConsulta(string codigo)
         {
             var petEncontrado = await _petRepositorio.BuscarPorCodigo(codigo);
             return View(petEncontrado);
+        }
+
+        public IActionResult Codigo()
+        {
+            return View();
         }
     }
 }

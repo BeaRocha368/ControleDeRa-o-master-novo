@@ -26,7 +26,7 @@ namespace ControleDeRação.Data.Repositorio
         }
 
         // Implementação do BuscarPorCodigo
-        public async Task<Pet> BuscarPorCodigo(Guid codigo)
+        public async Task<Pet> BuscarPorCodigo(string codigo)
         {
             return await _context.Pets
                                  .FirstOrDefaultAsync(p => p.CodigoAcesso == codigo);

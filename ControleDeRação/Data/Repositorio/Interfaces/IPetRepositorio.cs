@@ -9,7 +9,7 @@ namespace ControleDeRação.Data.Repositorio.Interfaces.IPetRepositorio
     public interface IPetRepositorio
     {
         Task Adicionar(Pet pet);
-        Task<Pet> BuscarPorCodigo(Guid codigo);
+        Task<Pet> BuscarPorCodigo(string codigo);
         Task<List<Pet>> BuscarTodos();
     }
 }

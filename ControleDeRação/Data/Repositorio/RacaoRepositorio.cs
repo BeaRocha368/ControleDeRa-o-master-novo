@@ -15,22 +15,20 @@ namespace ControleDeRação.Data.Repositorio
             _context = context;
         }
 
-        // Busca a entrada de racionamento de um pet específico
-        public async Task<Racao> BuscarPorPetId(int petId)
+        public async Task<Racao> BuscarEstoqueGlobal()
         {
-            return await _context.Racoes
-                                 .Include(r => r.Pet)
-                                 .FirstOrDefaultAsync(r => r.PetId == petId);
+            return await _context.Racoes.FirstOrDefaultAsync();
         }
 
         public async Task AdicionarOuAtualizar(Racao racao)
         {
-            if (racao.Id > 0)
+            if (racao.Id > 0 && _context.Racoes.Any(r => r.Id == racao.Id)) // Verifica se já existe
             {
                 _context.Racoes.Update(racao);
             }
-            else 
+            else
             {
+                racao.Id = 1; // Força o ID para garantir que só haja um registro
                 _context.Racoes.Add(racao);
             }
             await _context.SaveChangesAsync();

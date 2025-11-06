@@ -6,17 +6,17 @@ namespace ControleDeRação.Models
 {
     public class Racao
     {
-        public int Id { get; set; }
-        public int PetId { get; set; }
-        // Propriedade de Navegação (para carregar o Pet junto com a Racao)
-        [ForeignKey("PetId")]
-        public Pet Pet { get; set; }
+        public int Id { get; set; } = 1;
+       
         public decimal ConsumoDiarioKg { get; set; }
+
         public decimal EstoqueAtualKg { get; set; }
+
         public decimal UltimaCompraKg { get; set; }
+
         public DateTime DataAtualizacao { get; set; } = DateTime.Now;
 
-        [NotMapped] // Não cria coluna no banco, é calculado em tempo de execução
+        [NotMapped]
         public int DiasRestantes
         {
             get
@@ -29,8 +29,8 @@ namespace ControleDeRação.Models
             }
         }
 
-        // Propriedade Calculada: Verifica se o estoque está baixo (ex: menos de 7 dias)
+        // Propriedade Calculada: Verifica se o estoque está baixo (menor que 0.5 kg)
         [NotMapped]
-        public bool AlertaEstoqueBaixo => DiasRestantes < 7;
+        public bool AlertaEstoqueBaixo => EstoqueAtualKg <= 0.5M; // 0.5M = 500 gramas
     }
 }

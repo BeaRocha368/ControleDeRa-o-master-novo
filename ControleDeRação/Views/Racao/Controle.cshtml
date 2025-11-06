@@ -4,70 +4,65 @@
 @{
 }
 @model ControleDeRação.Models.Racao
+@using System.Globalization;
 @{
     ViewData["Title"] = "Controle de Ração";
-    // Tenta obter o nome do Pet para exibir no título
-    string petNome = Model.Pet != null ? Model.Pet.Nome : "Pet (ID: " + Model.PetId + ")";
 }
 
 <main class="content">
     <div class="content-box">
-        <h2 class="box-title">CONTROLE DE RAÇÃO (@petNome)</h2>
+        <h2 class="box-title">CONTROLE DE RAÇÃO</h2>
 
-        @if (Model.AlertaEstoqueBaixo)
-        {
-            <div class="alert alert-danger text-center">
-                <strong>ALERTA! ESTOQUE BAIXO:</strong> @Model.DiasRestantes dias restantes.
-            </div>
-        }
-
-        <form asp-controller="Racao" asp-action="AtualizaEstoque" method="post">
+        <form method="post" asp-controller="Racao" asp-action="AtualizaEstoque">
             @Html.AntiForgeryToken()
 
-            <input type="hidden" asp-for="PetId" />
-            <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="EstoqueAtualKg" /> <div class="form-group">
-                <label for="quantidadeComprada">Quantidade comprada (KG):</label>
-                <input type="number"
-                       step="0.01"
-                       id="quantidadeComprada"
-                       name="quantidadeComprada"
-                       class="form-control"
-                       placeholder="Em KG" />
+            <input type="hidden" name="estoqueAtual" value="@Model.EstoqueAtualKg" />
+            <input type="hidden" name="id" value="@Model.Id" />
+
+            <div class="form-group">
+                <label for="estoque_atual">Estoque Atual em KG</label>
+                <input type="text" id="estoque_atual" value="@Model.EstoqueAtualKg.ToString("F2")" disabled />
+                <span class="float-right" style="margin-top: -30px; margin-right: 5px;">KG</span>
+                <small class="form-text text-muted">Estoque atualizado em: @Model.DataAtualizacao.ToString("dd/MM/yyyy HH:mm")</small>
+            </div>
+
+            <hr />
+
+            <h3>Registro de Compra</h3>
+
+            <div class="form-group">
+                <label for="quantidade_comprada">Quantidade Comprada (KG)</label>
+                <input type="number" step="0.1" id="quantidade_comprada" name="quantidadeComprada" placeholder="Ex: 5.0" value="0.0" />
             </div>
 
             <div class="form-group">
-                <label for="consumoDiario">Consumo diário (KG/dia):</label>
-                <input asp-for="ConsumoDiarioKg"
-                       type="number"
-                       step="0.01"
-                       class="form-control"
-                       placeholder="Em KG"
-                       name="consumoDiario" />
+                <label for="data_compra">Data da Compra</label>
+                <input type="date" id="data_compra" name="dataCompra" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
             </div>
+
+            <hr />
+
+            <h3>Configuração de Consumo</h3>
 
             <div class="form-group">
-                <label>Estoque atual (KG):</label>
-                <input type="text"
-                       class="form-control"
-                       value="@(Model.EstoqueAtualKg.ToString("F2")) KG"
-                       disabled />
-                <small class="form-text text-muted">Estoque para aproximadamente @Model.DiasRestantes dias.</small>
+                <label for="consumo_diario">Consumo Diário (KG/dia)</label>
+                <input type="number" step="0.01" id="consumo_diario" name="consumoDiario" placeholder="Ex: 0.5 (para 500 gramas)" value="@Model.ConsumoDiarioKg.ToString("F2")" />
             </div>
 
-            <br />
+            @if (Model.AlertaEstoqueBaixo)
+            {
+                <div class="alert alert-danger text-center mt-3" role="alert">
+                    ALERTA! ESTOQUE BAIXO (Abaixo de 0.5 KG / 500g)
+                </div>
+            }
 
-            <div class="btn-group">
-                <button type="submit" class="btn btn-success btn-submit">SALVAR / ATUALIZAR</button>
-            </div>
-            <br />
-            <div class="btn-group">
-                <a href="#" class="btn btn-warning">EDITAR (Não implementado no back)</a>
+            <div class="btn-group mt-4">
+                <button type="submit" class="btn btn-success btn-action-salvar">SALVAR E ATUALIZAR</button>
             </div>
 
-            <div class="btn-group" style="margin-top: 10px;">
-                <a asp-controller="Pet" asp-action="ResultadoConsulta" asp-route-codigo="@Model.Pet.CodigoAcesso" class="btn btn-secondary">Voltar</a>
-            </div>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-secondary mt-3">Voltar</a>
         </form>
     </div>
 </main>
+
+

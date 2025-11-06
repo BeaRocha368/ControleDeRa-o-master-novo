@@ -15,68 +15,89 @@ namespace ControleDeRação.Controllers
             _racaoRepositorio = racaoRepositorio;
         }
 
-        // Exibe o formulário de controle de estoque para um Pet
-        public async Task<IActionResult> Controle(int petId)
+        public async Task<IActionResult> Controle()
         {
-            // 1. Busca o registro de Ração/Estoque para o PetId
-            var racao = await _racaoRepositorio.BuscarPorPetId(petId);
+            var racao = await _racaoRepositorio.BuscarEstoqueGlobal();
 
-            // 2. Se o registro não existir, cria um novo (com valores padrão)
             if (racao == null)
             {
-                if (petId == 0) return NotFound();
-
+                // Inicializa o registro de estoque se ele não existir
                 racao = new Racao
                 {
-                    PetId = petId,
-                    ConsumoDiarioKg = 0, // Padrão
-                    EstoqueAtualKg = 0,  // Padrão
-                    UltimaCompraKg = 0
+                    Id = 1,
+                    EstoqueAtualKg = 0.0m,
+                    ConsumoDiarioKg = 0.5m, // Valor padrão inicial (500g)
+                    DataAtualizacao = DateTime.Now
                 };
+                await _racaoRepositorio.AdicionarOuAtualizar(racao);
+            }
+            else
+            {
+                // 1. Calcula o tempo decorrido desde a última atualização
+                TimeSpan tempoDecorrido = DateTime.Now - racao.DataAtualizacao;
+
+                // Arredonda para baixo para obter o número inteiro de dias COMPLETOs que se passaram
+                int diasPassados = (int)Math.Floor(tempoDecorrido.TotalDays);
+
+                if (diasPassados >= 1)
+                {
+                    // 2. Calcula o consumo total e subtrai do estoque
+                    decimal consumoTotal = diasPassados * racao.ConsumoDiarioKg;
+
+                    racao.EstoqueAtualKg -= consumoTotal;
+
+                    // Garante que o estoque não fique negativo
+                    if (racao.EstoqueAtualKg < 0)
+                    {
+                        racao.EstoqueAtualKg = 0;
+                    }
+
+                    // 3. Atualiza a data de referência para o consumo
+                    // Adicionamos os dias deduzidos à DataAtualizacao para manter o tempo restante de hoje
+                    racao.DataAtualizacao = racao.DataAtualizacao.AddDays(diasPassados);
+
+                    // 4. Salva a alteração no estoque
+                    await _racaoRepositorio.AdicionarOuAtualizar(racao);
+                }
             }
 
-            // Passa o Model para a View
             return View(racao);
         }
 
+        // Esta ação APENAS adiciona a compra e atualiza a configuração de consumo
         [HttpPost]
-        [ValidateAntiForgeryToken] 
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AtualizaEstoque(
-            int petId, // ID do Pet (escondido no formulário da View)
-            decimal quantidadeComprada, // O KG adicionado ao estoque
-            decimal consumoDiario,      // O novo KG de consumo
-            decimal estoqueAtual)       // O estoque atual mostrado na tela
+            decimal quantidadeComprada,
+            decimal consumoDiario,
+            decimal estoqueAtual,
+            DateTime dataCompra)
         {
-            // 1. Busca o registro de Ração existente ou cria um novo
-            var racao = await _racaoRepositorio.BuscarPorPetId(petId);
+            var racao = await _racaoRepositorio.BuscarEstoqueGlobal();
 
             if (racao == null)
             {
-                racao = new Racao { PetId = petId };
+                racao = new Racao { Id = 1 };
             }
 
-            // 2. Lógica de Atualização do Estoque
-
-            racao.EstoqueAtualKg += quantidadeComprada;
-
-            // 3. Lógica de Atualização do Consumo Diário e Histórico
+            racao.EstoqueAtualKg = estoqueAtual + quantidadeComprada;
 
             racao.ConsumoDiarioKg = consumoDiario;
 
             if (quantidadeComprada > 0)
             {
                 racao.UltimaCompraKg = quantidadeComprada;
+                racao.DataAtualizacao = dataCompra;
+            }
+            else
+            {
+                racao.DataAtualizacao = DateTime.Now;
             }
 
-            racao.DataAtualizacao = DateTime.Now;
-
-            // 4. Salva ou Atualiza no banco de dados via Repositório
             await _racaoRepositorio.AdicionarOuAtualizar(racao);
 
-            // 5. Redireciona de volta para a tela de controle, passando o PetId
-            // para que a tela possa recarregar com os novos dados calculados
-            return RedirectToAction("Controle", new { petId = petId });
+            return RedirectToAction("Controle");
         }
     }
-  
+
 }

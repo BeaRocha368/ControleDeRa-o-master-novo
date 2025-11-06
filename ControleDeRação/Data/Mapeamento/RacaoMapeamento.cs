@@ -10,29 +10,25 @@ namespace ControleDeRação.Data.Mapeamento
         {
             builder.ToTable("Racoes");
 
-            builder.HasKey(r => r.Id);
+            builder.HasKey(t => t.Id);
 
-            builder.Property(r => r.ConsumoDiarioKg)
+            builder.Property(t => t.ConsumoDiarioKg)
                    .HasColumnType("DECIMAL(8, 2)") // Precisão para peso
                    .IsRequired();
 
-            builder.Property(r => r.EstoqueAtualKg)
+            builder.Property(t => t.EstoqueAtualKg)
                    .HasColumnType("DECIMAL(8, 2)")
                    .IsRequired();
 
-            builder.Property(r => r.UltimaCompraKg)
+            builder.Property(t => t.UltimaCompraKg)
                    .HasColumnType("DECIMAL(8, 2)")
                    .IsRequired();
 
-            builder.Property(r => r.DataAtualizacao)
+            builder.Property(t => t.DataAtualizacao)
                    .HasColumnType("DATETIME2")
                    .IsRequired();
 
-            // Configuração da Chave Estrangeira 
-            builder.HasOne(r => r.Pet) // Racao tem um Pet
-                   .WithMany() // Pet pode ter muitas Racoes (historico) 
-                   .HasForeignKey(r => r.PetId) // Usando a chave estrangeira PetId
-                   .IsRequired();
+            
         }
     }
 }
