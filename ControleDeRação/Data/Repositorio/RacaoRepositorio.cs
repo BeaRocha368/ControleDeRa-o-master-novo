@@ -31,7 +31,6 @@ namespace ControleDeRação.Data.Repositorio
                 racao.Id = 1; // Força o ID para garantir que só haja um registro
                 _context.Racoes.Add(racao);
             }
-            await _context.SaveChangesAsync();
         }
     }
 }

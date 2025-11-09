@@ -15,7 +15,6 @@ namespace ControleDeRação.Controllers
                 return View();
             }
 
-            // Action POST: Salva os horários e turnos
             [HttpPost]
             public IActionResult SalvarAgenda(string matutino, string vespertino, string noturno)
             {
