@@ -1,37 +1,77 @@
-﻿using ControleDeRação.Models;
-using ControleDeRação.Data.Repositorio.Interfaces;
+﻿using ControleDeRacao.Models;
+using ControleDeRacao.Data.Repositorio.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Linq;
+using ControleDeRacao.Data;
 
-namespace ControleDeRação.Data.Repositorio
+namespace ControleDeRacao.Data.Repositorio
 {
     public class RacaoRepositorio : IRacaoRepositorio
+
     {
+
         private readonly BancoContexto _context;
 
         public RacaoRepositorio(BancoContexto context)
+
         {
+
             _context = context;
+
         }
 
         public async Task<Racao> BuscarEstoqueGlobal()
+
         {
+
             return await _context.Racoes.FirstOrDefaultAsync();
+
         }
 
         public async Task AdicionarOuAtualizar(Racao racao)
+
         {
-            if (racao.Id > 0 && _context.Racoes.Any(r => r.Id == racao.Id)) // Verifica se já existe
+
+            var existente = await _context.Racoes.FirstOrDefaultAsync();
+
+            if (existente != null)
+
             {
-                _context.Racoes.Update(racao);
+
+                // Atualiza os campos, mantendo o Id existente
+
+                existente.ConsumoDiarioKg = racao.ConsumoDiarioKg;
+
+                existente.EstoqueAtualKg = racao.EstoqueAtualKg;
+
+                existente.UltimaCompraKg = racao.UltimaCompraKg;
+
+                existente.DataAtualizacao = racao.DataAtualizacao;
+
+                _context.Racoes.Update(existente);
+
             }
+
             else
+
             {
-                racao.Id = 1; // Força o ID para garantir que só haja um registro
+
+                // Não existe registro → cria o primeiro
+
                 _context.Racoes.Add(racao);
+
             }
+
+            await _context.SaveChangesAsync();
+
         }
+
     }
+
+
+
 }
+
+
 

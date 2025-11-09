@@ -1,8 +1,8 @@
 using System.Diagnostics;
-using ControleDeRação.Models;
+using ControleDeRacao.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ControleDeRação.Controllers
+namespace ControleDeRacao.Controllers
 {
     public class HomeController : Controller
     {

@@ -1,9 +1,9 @@
-﻿using ControleDeRação.Models;
+﻿
 using Microsoft.EntityFrameworkCore;
-using ControleDeRação.Models;
-using ControleDeRação.Data.Mapeamento;
+using ControleDeRacao.Models;
+using ControleDeRacao.Data.Mapeamento;
 
-namespace ControleDeRação.Data
+namespace ControleDeRacao.Data
 {
     public class BancoContexto : DbContext
     {
@@ -13,13 +13,16 @@ namespace ControleDeRação.Data
         {
             modelBuilder.ApplyConfiguration(new PetMapeamento());
             modelBuilder.ApplyConfiguration(new RacaoMapeamento());
+            modelBuilder.ApplyConfiguration(new AgendaAlimentacaoMapeamento());
 
             base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<Pet> Pets { get; set; }
         public DbSet<Racao> Racoes { get; set; }
+        public DbSet<AgendaAlimentacao> AgendaAlimentacoes { get; set; }
 
+        
     }
 }
 

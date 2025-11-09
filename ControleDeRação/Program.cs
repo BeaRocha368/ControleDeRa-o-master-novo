@@ -1,8 +1,9 @@
-using ControleDeRação.Data;
-using ControleDeRação.Data.Repositorio.Interfaces.IPetRepositorio;
-using ControleDeRação.Data.Repositorio;
+using ControleDeRacao.Data;
+using ControleDeRacao.Data.Repositorio.Interfaces.IPetRepositorio;
+using ControleDeRacao.Data.Repositorio;
 using Microsoft.EntityFrameworkCore;
-using ControleDeRação.Data.Repositorio.Interfaces;
+using ControleDeRacao.Data.Repositorio.Interfaces;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,7 @@ builder.Services.AddDbContext<BancoContexto>(options => options.UseSqlServer(con
 
 builder.Services.AddScoped<IPetRepositorio, PetRepositorio>();
 builder.Services.AddScoped<IRacaoRepositorio, RacaoRepositorio>();
+builder.Services.AddScoped<IAlimentacaoRepositorio, AlimentacaoRepositorio>();
 
 var app = builder.Build();
 

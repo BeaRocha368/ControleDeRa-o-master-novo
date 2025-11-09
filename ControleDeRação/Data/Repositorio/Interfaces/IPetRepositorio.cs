@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ControleDeRação.Models;
-using ControleDeRação.Data;
+using ControleDeRacao.Models;
+using ControleDeRacao.Data;
 using Microsoft.EntityFrameworkCore;
-using ControleDeRação.Data.Repositorio.Interfaces;
+using ControleDeRacao.Data.Repositorio.Interfaces;
 
-namespace ControleDeRação.Data.Repositorio.Interfaces.IPetRepositorio
+namespace ControleDeRacao.Data.Repositorio.Interfaces.IPetRepositorio
 {
     public interface IPetRepositorio
     {

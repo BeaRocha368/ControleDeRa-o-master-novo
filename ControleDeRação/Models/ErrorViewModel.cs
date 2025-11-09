@@ -1,4 +1,4 @@
-namespace ControleDeRação.Models
+namespace ControleDeRacao.Models
 {
     public class ErrorViewModel
     {

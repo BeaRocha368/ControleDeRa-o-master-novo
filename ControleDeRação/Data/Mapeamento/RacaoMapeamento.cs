@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ControleDeRação.Models;
+using ControleDeRacao.Models;
 
-namespace ControleDeRação.Data.Mapeamento
+namespace ControleDeRacao.Data.Mapeamento
 {
     public class RacaoMapeamento : IEntityTypeConfiguration<Racao>
     {

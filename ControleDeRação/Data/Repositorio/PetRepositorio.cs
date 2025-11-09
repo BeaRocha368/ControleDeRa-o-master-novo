@@ -1,12 +1,13 @@
-﻿using ControleDeRação.Models;
-using ControleDeRação.Data.Repositorio.Interfaces.IPetRepositorio;
+﻿using ControleDeRacao.Models;
+using ControleDeRacao.Data.Repositorio.Interfaces.IPetRepositorio;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using ControleDeRacao.Data;
 
-namespace ControleDeRação.Data.Repositorio
+namespace ControleDeRacao.Data.Repositorio
 {
     public class PetRepositorio : IPetRepositorio
     {

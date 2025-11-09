@@ -1,4 +1,6 @@
-﻿namespace ControleDeRação.Models
+﻿using ControleDeRacao.Models;
+
+namespace ControleDeRacao.Models
 {
     public class Pet
     {

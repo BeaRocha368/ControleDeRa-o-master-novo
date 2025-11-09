@@ -1,6 +1,6 @@
-﻿using ControleDeRação.Models;
+﻿using ControleDeRacao.Models;
 
-namespace ControleDeRação.Data.Repositorio.Interfaces
+namespace ControleDeRacao.Data.Repositorio.Interfaces
 {
     public interface IRacaoRepositorio
     {

@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ControleDeRação.Models;
-using ControleDeRação.Data.Repositorio.Interfaces;
+using ControleDeRacao.Models;
+using ControleDeRacao.Data.Repositorio.Interfaces;
 using System.Threading.Tasks;
 using System;
 
-namespace ControleDeRação.Controllers
+namespace ControleDeRacao.Controllers
 {
     public class RacaoController : Controller
     {

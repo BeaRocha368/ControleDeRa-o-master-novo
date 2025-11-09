@@ -1,12 +1,12 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using ControleDeRação.Models;
+using ControleDeRacao.Models;
 
-namespace ControleDeRação.Models
+namespace ControleDeRacao.Models
 {
     public class Racao
     {
-        public int Id { get; set; } = 1;
+        public int Id { get; set; } 
        
         public decimal ConsumoDiarioKg { get; set; }
 

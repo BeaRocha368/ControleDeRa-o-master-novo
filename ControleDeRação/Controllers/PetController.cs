@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ControleDeRação.Models;
-using ControleDeRação.Data;
+using ControleDeRacao.Models;
+using ControleDeRacao.Data;
 using Microsoft.EntityFrameworkCore;
-using ControleDeRação.Data.Repositorio.Interfaces.IPetRepositorio;
-using ControleDeRação.Helpers;
+using ControleDeRacao.Data.Repositorio.Interfaces.IPetRepositorio;
+using ControleDeRacao.Helpers;
 
-namespace ControleDeRação.Controllers
+namespace ControleDeRacao.Controllers
 {
     public class PetController : Controller
     {

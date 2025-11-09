@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace ControleDeRação.Helpers // Ajuste o namespace se você criar uma pasta Helpers
+namespace ControleDeRacao.Helpers // Ajuste o namespace se você criar uma pasta Helpers
 {
     public static class CodigoPetHelper
     {
