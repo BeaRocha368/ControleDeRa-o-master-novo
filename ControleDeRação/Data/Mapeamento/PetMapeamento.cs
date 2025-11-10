@@ -16,7 +16,7 @@ namespace ControleDeRacao.Data.Mapeamento
             builder.Property(t => t.Idade).HasColumnType("INT");
             builder.Property(t => t.Peso).HasColumnType("FLOAT");
             builder.Property(t => t.MarcaRacao).HasColumnType("VARCHAR(100)");
-            builder.Property(t => t.CodigoAcesso).HasColumnType("UNIQUEIDENTIFIER");
+            builder.Property(t => t.CodigoAcesso).HasColumnType("VARCHAR(100)");
             builder.Property(t => t.DataCriacao).HasColumnType("DATATIME2");
            
         }
