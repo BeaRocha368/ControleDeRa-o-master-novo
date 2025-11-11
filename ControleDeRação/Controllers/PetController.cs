@@ -24,17 +24,19 @@ namespace ControleDeRacao.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiforgeryToken]
         public async Task<IActionResult> Cadastrar(Pet novoPet)
         {
             if (ModelState.IsValid)
             {
+               
+                novoPet.DataCriacao = DateTime.Now;
                 novoPet.CodigoAcesso = CodigoPetHelper.GerarCodigoCurto(6);
 
                 await _petRepositorio.Adicionar(novoPet);
-
                 return RedirectToAction("ResultadoConsulta", new { codigo = novoPet.CodigoAcesso });
             }
+
             return View(novoPet);
         }
 

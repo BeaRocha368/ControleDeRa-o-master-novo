@@ -10,6 +10,7 @@
         <h2 class="box-title">CADASTRAR PET</h2>
         
         <form asp-controller="Pet" asp-action="Cadastrar" method="post" >
+            <div asp-validation-summary="All" class="text-danger"></div>
 
             @Html.AntiForgeryToken()
 

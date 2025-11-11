@@ -3,82 +3,110 @@
 *@
 @{
 }
-@model ControleDeRacao.Models.Racao
+@model ControleDeRacao.Models.RacaoViewModel
 @using System.Globalization;
 @using ControleDeRacao
 @using ControleDeRacao.Models
-@using ControleDeRacao
-@using ControleDeRacao.Models
-@using ControleDeRacao
-@using ControleDeRacao.Models
-@using ControleDeRacao
-@using ControleDeRacao.Models
-@using ControleDeRacao
-@using ControleDeRacao.Models
-@using ControleDeRacao
-@using ControleDeRacao.Models
-@using ControleDeRacao
-@using ControleDeRacao.Models
-@using ControleDeRacao
-@using ControleDeRacao.Models
-@using ControleDeRacao
-@using ControleDeRacao.Models
+
+
 @{
     ViewData["Title"] = "Controle de Ração";
 }
 
 <main class="content">
-    <div class="content-box">
+    <div class="box-content">
         <h2 class="box-title">CONTROLE DE RAÇÃO</h2>
 
-        <form method="post" asp-controller="Racao" asp-action="AtualizaEstoque">
+        <!-- Mensagem de Sucesso (opcional) -->
+        @if (TempData["MensagemSucesso"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["MensagemSucesso"]
+            </div>
+        }
+
+        <form asp-controller="Racao" asp-action="AtualizaEstoque" method="post">
             @Html.AntiForgeryToken()
 
-            <input type="hidden" name="estoqueAtual" value="@Model.EstoqueAtualKg" />
-            <input type="hidden" name="id" value="@Model.Id" />
+            <!-- 1. CAMPO DO CÓDIGO DO PET E BOTÃO DE BUSCA -->
+            <div class="form-group mb-3 d-flex align-items-end">
+                <div style="flex-grow: 1; margin-right: 10px;">
+                    <label asp-for="CodigoAcesso"></label>
+                    <input asp-for="CodigoAcesso" class="form-control" placeholder="Código de acesso do PET" />
+                    <!-- Exibe o erro de validação (ex: campo vazio ou código não encontrado) -->
+                    <span asp-validation-for="CodigoAcesso" class="text-danger"></span>
+                </div>
 
-            <div class="form-group">
-                <label for="estoque_atual">Estoque Atual em KG</label>
-                <input type="text" id="estoque_atual" value="@Model.EstoqueAtualKg.ToString("F2")" disabled />
-                <span class="float-right" style="margin-top: -30px; margin-right: 5px;">KG</span>
-                <small class="form-text text-muted">Estoque atualizado em: @Model.DataAtualizacao.ToString("dd/MM/yyyy HH:mm")</small>
+                <!--
+                    Botão BUSCAR PET:
+                -->
+                <div>
+                    <button type="submit" asp-action="BuscarPet" class="btn btn-info">
+                        BUSCAR PET
+                    </button>
+                </div>
             </div>
 
-            <hr />
-
-            <h3>Registro de Compra</h3>
-
-            <div class="form-group">
-                <label for="quantidade_comprada">Quantidade Comprada (KG)</label>
-                <input type="number" step="0.1" id="quantidade_comprada" name="quantidadeComprada" placeholder="Ex: 5.0" value="0.0" />
-            </div>
-
-            <div class="form-group">
-                <label for="data_compra">Data da Compra</label>
-                <input type="date" id="data_compra" name="dataCompra" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
-            </div>
-
-            <hr />
-
-            <h3>Configuração de Consumo</h3>
-
-            <div class="form-group">
-                <label for="consumo_diario">Consumo Diário (KG/dia)</label>
-                <input type="number" step="0.01" id="consumo_diario" name="consumoDiario" placeholder="Ex: 0.5 (para 500 gramas)" value="@Model.ConsumoDiarioKg.ToString("F2")" />
-            </div>
-
-            @if (Model.AlertaEstoqueBaixo)
+            <!-- 2. EXIBIÇÃO DO NOME DO PET -->
+            @if (!string.IsNullOrEmpty(Model.NomePet))
             {
-                <div class="alert alert-danger text-center mt-3" role="alert">
-                    ALERTA! ESTOQUE BAIXO (Abaixo de 0.5 KG / 500g)
+                <div class="alert alert-primary mt-2">
+                    PET Encontrado: <strong>@Model.NomePet</strong>
+                    @* Campo oculto para garantir que o NomePet volte no próximo POST *@
+                    <input asp-for="NomePet" type="hidden" />
                 </div>
             }
 
-            <div class="btn-group mt-4">
-                <button type="submit" class="btn btn-success btn-action-salvar">SALVAR E ATUALIZAR</button>
+            <hr />
+
+            <!-- 3. CAMPOS DE ESTOQUE ATUAL -->
+            @* Campos ocultos para manter dados globais no modelo *@
+            <input asp-for="Id" type="hidden" />
+            <input asp-for="DataAtualizacao" type="hidden" />
+
+            <input asp-for="CodigoAcesso" type="hidden" />
+
+
+            <div class="form-group">
+                <label asp-for="EstoqueAtualKg"></label>
+                <!-- Exibe o Estoque e desabilita a edição direta -->
+                <input asp-for="EstoqueAtualKg" type="text" class="form-control" disabled />
+                <small class="form-text text-muted">Estoque atualizado em: @Model.DataAtualizacao.ToString("dd/MM/yyyy HH:mm")</small>
             </div>
 
-            <a asp-controller="Home" asp-action="Index" class="btn btn-secondary mt-3">Voltar</a>
+            <hr>
+            <h3>Registro de Compra e Configuração de Consumo</h3>
+
+            <!-- 4. CAMPO DE COMPRA -->
+            <div class="form-group">
+                <label asp-for="QuantidadeCompradaKg"></label>
+                <input asp-for="QuantidadeCompradaKg" type="number" step="0.01" class="form-control" />
+                <span asp-validation-for="QuantidadeCompradaKg" class="text-danger"></span>
+            </div>
+
+            <!-- 5. CAMPO DATA DA COMPRA -->
+            <div class="form-group">
+                <label asp-for="DataDaCompra"></label>
+                <input asp-for="DataDaCompra" type="date" class="form-control" />
+                <span asp-validation-for="DataDaCompra" class="text-danger"></span>
+            </div>
+
+            <!-- 6. CAMPO DE CONSUMO DIÁRIO (permite alterar a configuração de consumo) -->
+            <div class="form-group">
+                <label asp-for="ConsumoDiarioKg"></label>
+                <input asp-for="ConsumoDiarioKg" type="number" step="0.01" class="form-control" />
+                <span asp-validation-for="ConsumoDiarioKg" class="text-danger"></span>
+            </div>
+
+            <div class="btn-group mt-4">
+                <!--
+                    Botão SALVAR E ATUALIZAR:
+                -->
+                <button type="submit" class="btn btn-success btn-action-salvar">
+                    SALVAR E ATUALIZAR
+                </button>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">VOLTAR</a>
+            </div>
         </form>
     </div>
 </main>

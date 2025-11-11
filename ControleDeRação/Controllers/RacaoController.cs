@@ -1,18 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ControleDeRacao.Models;
-using ControleDeRacao.Data.Repositorio.Interfaces;
+using ControleDeRacao.Data.Repositorio;
 using System.Threading.Tasks;
 using System;
+using ControleDeRacao.Data.Repositorio.Interfaces;
+using static System.Math;
+using ControleDeRacao.Data.Repositorio.Interfaces.IPetRepositorio;
 
 namespace ControleDeRacao.Controllers
 {
     public class RacaoController : Controller
     {
         private readonly IRacaoRepositorio _racaoRepositorio;
+        private readonly IPetRepositorio _petRepositorio;
 
-        public RacaoController(IRacaoRepositorio racaoRepositorio)
+        public RacaoController(IRacaoRepositorio racaoRepositorio, IPetRepositorio petRepositorio)
         {
             _racaoRepositorio = racaoRepositorio;
+            _petRepositorio = petRepositorio;
         }
 
         public async Task<IActionResult> Controle()
@@ -21,57 +26,83 @@ namespace ControleDeRacao.Controllers
 
             if (racao == null)
             {
-                // Inicializa o registro de estoque se ele não existir
                 racao = new Racao
                 {
                     Id = 1,
                     EstoqueAtualKg = 0.0m,
-                    ConsumoDiarioKg = 0.5m, // Valor padrão inicial (500g)
+                    ConsumoDiarioKg = 0.5m,
                     DataAtualizacao = DateTime.Now
                 };
                 await _racaoRepositorio.AdicionarOuAtualizar(racao);
             }
             else
             {
-                // 1. Calcula o tempo decorrido desde a última atualização
                 TimeSpan tempoDecorrido = DateTime.Now - racao.DataAtualizacao;
-
-                // Arredonda para baixo para obter o número inteiro de dias COMPLETOs que se passaram
-                int diasPassados = (int)Math.Floor(tempoDecorrido.TotalDays);
+                int diasPassados = (int)Floor(tempoDecorrido.TotalDays);
 
                 if (diasPassados >= 1)
                 {
-                    // 2. Calcula o consumo total e subtrai do estoque
                     decimal consumoTotal = diasPassados * racao.ConsumoDiarioKg;
-
                     racao.EstoqueAtualKg -= consumoTotal;
 
-                    // Garante que o estoque não fique negativo
                     if (racao.EstoqueAtualKg < 0)
                     {
                         racao.EstoqueAtualKg = 0;
                     }
 
-                    // 3. Atualiza a data de referência para o consumo
-                    // Adicionamos os dias deduzidos à DataAtualizacao para manter o tempo restante de hoje
+                    // Atualiza a data de referência (após o consumo)
                     racao.DataAtualizacao = racao.DataAtualizacao.AddDays(diasPassados);
-
-                    // 4. Salva a alteração no estoque
                     await _racaoRepositorio.AdicionarOuAtualizar(racao);
                 }
             }
 
-            return View(racao);
+            var viewModel = new RacaoViewModel
+            {
+                EstoqueAtualKg = (double)racao.EstoqueAtualKg,
+                ConsumoDiarioKg = (double)racao.ConsumoDiarioKg,
+                DataAtualizacao = racao.DataAtualizacao
+            };
+
+            if (racao.Id > 0)
+            {
+                viewModel.Id = racao.Id;
+            }
+
+            return View(viewModel);
         }
 
-        // Esta ação APENAS adiciona a compra e atualiza a configuração de consumo
+        [HttpPost]
+        public async Task<IActionResult> BuscarPet(RacaoViewModel model)
+        {
+            await RecarregarDadosRacaoGlobal(model);
+
+            if (!ModelState.IsValid)
+            {
+                return View("Controle", model);
+            }
+
+            var pet = await _petRepositorio.BuscarPorCodigo(model.CodigoAcesso);
+
+            if (pet == null)
+            {
+                // PET não encontrado
+                ModelState.AddModelError("CodigoAcesso", "Código do PET não encontrado.");
+                model.NomePet = string.Empty;
+            }
+            else
+            {
+                // PET encontrado: preenche o nome
+                model.NomePet = pet.Nome;
+                ModelState.Remove("CodigoAcesso");
+            }
+
+            // Retorna a View com o nome preenchido (ou erro), mantendo os dados de estoque
+            return View("Controle", model);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AtualizaEstoque(
-            decimal quantidadeComprada,
-            decimal consumoDiario,
-            decimal estoqueAtual,
-            DateTime dataCompra)
+        public async Task<IActionResult> AtualizaEstoque(RacaoViewModel model)
         {
             var racao = await _racaoRepositorio.BuscarEstoqueGlobal();
 
@@ -80,14 +111,13 @@ namespace ControleDeRacao.Controllers
                 racao = new Racao { Id = 1 };
             }
 
-            racao.EstoqueAtualKg = estoqueAtual + quantidadeComprada;
+            racao.EstoqueAtualKg += (decimal)model.QuantidadeCompradaKg;
 
-            racao.ConsumoDiarioKg = consumoDiario;
+            racao.ConsumoDiarioKg = (decimal)model.ConsumoDiarioKg;
 
-            if (quantidadeComprada > 0)
+            if (model.QuantidadeCompradaKg > 0)
             {
-                racao.UltimaCompraKg = quantidadeComprada;
-                racao.DataAtualizacao = dataCompra;
+                racao.DataAtualizacao = model.DataDaCompra ?? DateTime.Now;
             }
             else
             {
@@ -96,8 +126,28 @@ namespace ControleDeRacao.Controllers
 
             await _racaoRepositorio.AdicionarOuAtualizar(racao);
 
+            if (!string.IsNullOrEmpty(model.NomePet))
+            {
+                TempData["MensagemSucesso"] = $"Estoque atualizado com sucesso! Interação registrada com PET: {model.NomePet}.";
+            }
+            else
+            {
+                TempData["MensagemSucesso"] = "Estoque atualizado com sucesso!";
+            }
+
             return RedirectToAction("Controle");
         }
-    }
 
+        private async Task RecarregarDadosRacaoGlobal(RacaoViewModel model)
+        {
+            var racao = await _racaoRepositorio.BuscarEstoqueGlobal();
+            if (racao != null)
+            {
+                model.Id = racao.Id;
+                model.EstoqueAtualKg = (double)racao.EstoqueAtualKg;
+                model.ConsumoDiarioKg = (double)racao.ConsumoDiarioKg;
+                model.DataAtualizacao = racao.DataAtualizacao;
+            }
+        }
+    }
 }
