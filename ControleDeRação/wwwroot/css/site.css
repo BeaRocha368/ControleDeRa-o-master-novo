@@ -76,14 +76,14 @@
 /* ---------------------------------------------------- */
 .content {
  
-    padding: 20px;
-    display: block; /* Para centralizar ou organizar blocos */
+    padding: 50px;
+   display: block; /* Para centralizar ou organizar blocos */
 }
 
 .content-box {
     background-color: white;
     border: 1px solid #ccc;
-    padding: 20px;
+    padding: 40px;
     width: 100%;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     /* Largura ajustada para simular o layout de 2 ou 3 colunas */
@@ -103,7 +103,7 @@
 /* Estilos de Formulário (usados nas páginas de cadastro/controle) */
 /* ---------------------------------------------------- */
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 30px;
 }
 
 label {
@@ -122,7 +122,7 @@ input[type="text"], input[type="number"] {
 .btn-group {
     display: flex;
     gap: 10px;
-    margin-top: 20px;
+    margin-top: 60px;
 }
 
 /* Estilos de botões para ações (Salvar, Editar) - diferentes dos botões do menu */
