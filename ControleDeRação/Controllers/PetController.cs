@@ -34,10 +34,19 @@ namespace ControleDeRacao.Controllers
                 novoPet.CodigoAcesso = CodigoPetHelper.GerarCodigoCurto(6);
 
                 await _petRepositorio.Adicionar(novoPet);
-                return RedirectToAction("ResultadoConsulta", new { codigo = novoPet.CodigoAcesso });
+                return RedirectToAction("CadastroConcluido", new { codigo = novoPet.CodigoAcesso });
             }
 
             return View(novoPet);
+        }
+
+        public async Task<IActionResult> CadastroConcluido(string codigo)
+        {
+            // Busca o pet recém-cadastrado para passar os dados para a View
+            var petRecemCadastrado = await _petRepositorio.BuscarPorCodigo(codigo);
+
+            // Retorna a View "CadastroConcluido.cshtml"
+            return View("CadastroConcluido", petRecemCadastrado);
         }
 
         [HttpPost]
@@ -47,8 +56,8 @@ namespace ControleDeRacao.Controllers
 
             if (petEncontrado != null)
             {
-                
-                return RedirectToAction("Controle", "Racao");
+
+                return RedirectToAction("ResultadoConsulta", new { codigo = codigo });
             }
                         
             TempData["MensagemErro"] = "Código PET não encontrado ou inválido.";
@@ -57,7 +66,7 @@ namespace ControleDeRacao.Controllers
         public async Task<IActionResult> ResultadoConsulta(string codigo)
         {
             var petEncontrado = await _petRepositorio.BuscarPorCodigo(codigo);
-            return View(petEncontrado);
+            return View("DetalhesPet", petEncontrado);
         }
 
         public IActionResult Codigo()

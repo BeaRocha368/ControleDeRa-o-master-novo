@@ -1,0 +1,47 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model ControleDeRacao.Models.Pet
+@{
+    ViewData["Title"] = "Detalhes do PET";
+}
+
+<main class="content">
+    <div class="content-box">
+
+        @if (Model != null)
+        {
+            <h2 class="box-title">Cadastro do PET Encontrado</h2>
+
+            <div class="pet-details" style="text-align: left; max-width: 500px; margin: 20px auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+
+                <h3>@Model.Nome</h3>
+                <hr>
+                <p><strong>Código de Acesso:</strong> @Model.CodigoAcesso</p>
+                <p><strong>Nome do PET:</strong> @Model.Nome</p>
+                <p><strong>Idade:</strong> @Model.Idade</p>
+                <p><strong>Peso:</strong> @Model.Peso</p>
+                <p><strong>Marca da Racao:</strong> @Model.MarcaRacao</p>
+            </div>
+
+            <div class="btn-group" style="justify-content: center; margin-top: 20px;">
+                <a asp-controller="Racao" asp-action="Controle" asp-route-petId="@Model.Id" class="btn btn-primary btn-lg">
+                    Ir para Controle de Ração
+                </a>
+                <a asp-controller="Pet" asp-action="Codigo" class="btn btn-secondary" style="margin-left: 10px;">
+                    Buscar Outro PET
+                </a>
+            </div>
+        }
+        else
+        {
+            <h2 class="box-title">PET não encontrado</h2>
+            <div class="alert alert-danger">
+                <p>O código informado não corresponde a nenhum PET cadastrado.</p>
+            </div>
+            <a asp-controller="Pet" asp-action="Codigo" class="btn btn-primary">Voltar para a Busca</a>
+        }
+    </div>
+</main>
