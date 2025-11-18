@@ -14,6 +14,7 @@ namespace ControleDeRacao.Data
             modelBuilder.ApplyConfiguration(new PetMapeamento());
             modelBuilder.ApplyConfiguration(new RacaoMapeamento());
             modelBuilder.ApplyConfiguration(new AgendaAlimentacaoMapeamento());
+            modelBuilder.ApplyConfiguration(new AgendaMapeamento());
 
             base.OnModelCreating(modelBuilder);
         }
@@ -21,6 +22,7 @@ namespace ControleDeRacao.Data
         public DbSet<Pet> Pets { get; set; }
         public DbSet<Racao> Racoes { get; set; }
         public DbSet<AgendaAlimentacao> AgendaAlimentacoes { get; set; }
+        public DbSet<Agenda> Agenda { get; set; } 
 
         
     }

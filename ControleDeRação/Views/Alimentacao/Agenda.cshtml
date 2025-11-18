@@ -10,13 +10,13 @@
         
         <div class="container text-center">
             
-            <form method="post" asp-controller="Alimentacao" asp-action="SalvarAgenda">
+            <form method="post" asp-controller="Agenda" asp-action="SalvarAgenda">
                 <div class="row">
                     
                     <div class="col">
                         <div class="form-group">
                             <label for="matutino_hora">Matutino</label>
-                            <input type="time" id="matutino_hora" name="matutino_hora" class="form-control" value="07:00">
+                            <input type="time" id="HorarioMatutino" name="HorarioMatutino" class="form-control" value="07:00">
                             <button type="submit" class="btn btn-action btn-save" style="padding: 10px 20px; width: 100px; margin-top: 10px; display:block; align-items:center">SALVAR</button>
                             <button type="submit" class="btn btn-action btn-save" style="padding: 10px 20px; width: 100px; margin-top: 10px; display:block; align-items:center;">EDITAR</button>
                         </div>
@@ -25,7 +25,7 @@
                     <div class="col">
                         <div class="form-group">
                             <label for="vespertino_hora">Vespertino</label>
-                            <input type="time" id="vespertino_hora" name="vespertino_hora" class="form-control" value="13:00">
+                            <input type="time" id="HorarioVespertino" name="HorarioVespertino" class="form-control" value="13:00">
                             <button type="submit" class="btn btn-action btn-save" style="padding: 10px 20px; width: 100px; margin-top: 10px; display:block; align-items:center;">SALVAR</button>
                             <button type="submit" class="btn btn-action btn-save" style="padding: 10px 20px; width: 100px; margin-top: 10px; display:block; align-items:center;">EDITAR</button>
                         </div>
@@ -34,7 +34,7 @@
                     <div class="col">
                         <div class="form-group">
                             <label for="noturno_hora">Noturno</label>
-                            <input type="time" id="noturno_hora" name="noturno_hora" class="form-control" value="19:00">
+                            <input type="time" id="HorarioNoturno" name="HorarioNoturno" class="form-control" value="19:00">
                             <button type="submit" class="btn btn-action btn-save" style="padding: 10px 20px; width: 100px; margin-top: 10px; display:block; align-items:center;">SALVAR</button>
                             <button type="submit" class="btn btn-action btn-save" style="padding: 10px 20px; width: 100px; margin-top: 10px; display:block; align-items:center;">EDITAR</button>
                         </div>
