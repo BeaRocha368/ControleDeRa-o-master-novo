@@ -72,7 +72,7 @@ namespace ControleDeRacao.Data.Repositorio
 
             await _context.SaveChangesAsync();
 
-            
+
             // 💾 Salvar nova alimentação
             _context.AgendaAlimentacoes.Add(agenda);
 
@@ -80,7 +80,7 @@ namespace ControleDeRacao.Data.Repositorio
             var racao = await _context.Racoes.FirstOrDefaultAsync();
             if (racao != null)
             {
-                
+
 
                 if (racao.EstoqueAtualKg < 0)
                     racao.EstoqueAtualKg = 0; // Evita número negativo

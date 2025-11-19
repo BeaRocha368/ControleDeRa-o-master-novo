@@ -28,17 +28,17 @@ namespace ControleDeRacao.Controllers
 
         // Action POST: Salva os horários e turnos
 
-        [HttpPost]
+        //[HttpPost]
 
-        public IActionResult SalvarAgenda(string matutino, string vespertino, string noturno)
+        //public IActionResult SalvarAgenda(string matutino, string vespertino, string noturno)
 
-        {
+        //{
 
-            // Lógica para salvar a agenda (Horários 07:00, 13:00, 19:00, etc.)
+        //    // Lógica para salvar a agenda (Horários 07:00, 13:00, 19:00, etc.)
 
-            return RedirectToAction("Agenda");
+        //    return RedirectToAction("Agenda");
 
-        }
+        //}
 
     }
 

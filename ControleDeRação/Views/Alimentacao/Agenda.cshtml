@@ -7,6 +7,13 @@
 <main class="content">
     <div class="content-box">
         <h2 class="box-title">AGENDA DE ALIMENTAÇÃO</h2>
+
+        @if (TempData["MensagemSucesso"] != null)
+        {
+            <div class="alert alert-success" role="alert">
+                @TempData["MensagemSucesso"]
+            </div>
+        }
         
         <div class="container text-center">
             
@@ -16,27 +23,24 @@
                     <div class="col">
                         <div class="form-group">
                             <label for="matutino_hora">Matutino</label>
-                            <input type="time" id="HorarioMatutino" name="HorarioMatutino" class="form-control" value="07:00">
-                            <button type="submit" class="btn btn-action btn-save" style="padding: 10px 20px; width: 100px; margin-top: 10px; display:block; align-items:center">SALVAR</button>
-                            <button type="submit" class="btn btn-action btn-save" style="padding: 10px 20px; width: 100px; margin-top: 10px; display:block; align-items:center;">EDITAR</button>
+                            <input type="time" id="HorarioMatutino" name="HorarioMatutino" class="form-control" value="">
+                            
                         </div>
                     </div>
 
                     <div class="col">
                         <div class="form-group">
                             <label for="vespertino_hora">Vespertino</label>
-                            <input type="time" id="HorarioVespertino" name="HorarioVespertino" class="form-control" value="13:00">
-                            <button type="submit" class="btn btn-action btn-save" style="padding: 10px 20px; width: 100px; margin-top: 10px; display:block; align-items:center;">SALVAR</button>
-                            <button type="submit" class="btn btn-action btn-save" style="padding: 10px 20px; width: 100px; margin-top: 10px; display:block; align-items:center;">EDITAR</button>
+                            <input type="time" id="HorarioVespertino" name="HorarioVespertino" class="form-control" value="">
+                            
                         </div>
                     </div>
 
                     <div class="col">
                         <div class="form-group">
                             <label for="noturno_hora">Noturno</label>
-                            <input type="time" id="HorarioNoturno" name="HorarioNoturno" class="form-control" value="19:00">
-                            <button type="submit" class="btn btn-action btn-save" style="padding: 10px 20px; width: 100px; margin-top: 10px; display:block; align-items:center;">SALVAR</button>
-                            <button type="submit" class="btn btn-action btn-save" style="padding: 10px 20px; width: 100px; margin-top: 10px; display:block; align-items:center;">EDITAR</button>
+                            <input type="time" id="HorarioNoturno" name="HorarioNoturno" class="form-control" value="">
+                           
                         </div>
                     </div>
 

@@ -18,11 +18,29 @@ namespace ControleDeRacao.Data.Repositorio
             _bancoContexto = bancoContexto;
         }
 
+        public async Task<Agenda> ObterAgendaAsync()
+        {
+            return await _bancoContexto.Agenda.FirstOrDefaultAsync();
+        }
+
         public async Task SalvarAgendaAsync(Agenda agenda)
         {
-            await _bancoContexto.Agenda.AddAsync(agenda);
+            var agendaExistente = await _bancoContexto.Agenda.FirstOrDefaultAsync();
+
+            if (agendaExistente != null)
+            {
+                agendaExistente.HorarioMatutino = agenda.HorarioMatutino;
+                agendaExistente.HorarioVespertino = agenda.HorarioVespertino;
+                agendaExistente.HorarioNoturno = agenda.HorarioNoturno;
+                _bancoContexto.Agenda.Update(agendaExistente);
+            }
+            else
+            {
+                await _bancoContexto.Agenda.AddAsync(agenda);
+            }
+
             await _bancoContexto.SaveChangesAsync();
         }
-     
+
     }
 }

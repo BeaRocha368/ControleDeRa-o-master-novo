@@ -15,6 +15,13 @@ namespace ControleDeRacao.Controllers
             _agendaRepositorio = agendaRepositorio;
         }
 
+        [HttpGet]
+        public IActionResult Agenda()
+        {
+
+            return View("~/Views/Alimentacao/Agenda.cshtml");
+        }
+
         [HttpPost]
         public async Task<IActionResult> SalvarAgenda(string? HorarioMatutino, string? HorarioVespertino, string? HorarioNoturno)
         {
@@ -26,9 +33,12 @@ namespace ControleDeRacao.Controllers
             };
 
 
-            await _agendaRepositorio.SalvarAgendaAsync(agenda);
+            await _agendaRepositorio.SalvarAgendaAsync(agenda); 
+            TempData["MensagemSucesso"] = "Agenda salva com sucesso!"; 
 
-            return View("Agenda");
+            return RedirectToAction("Agenda");
         }
+
+        
     }
 }
