@@ -16,10 +16,11 @@ namespace ControleDeRacao.Controllers
         }
 
         [HttpGet]
-        public IActionResult Agenda()
+        public async Task<IActionResult> Agenda()
         {
+            var agendas = await _agendaRepositorio.BuscarTodasAgendasAsync();
 
-            return View("~/Views/Alimentacao/Agenda.cshtml");
+            return View(agendas);
         }
 
         [HttpPost]

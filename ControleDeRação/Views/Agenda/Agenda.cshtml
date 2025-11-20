@@ -1,20 +1,17 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model IEnumerable<ControleDeRacao.Models.Agenda>
+@using System.Linq
 
 <main class="content">
     <div class="content-box">
         <h2 class="box-title">AGENDA DE ALIMENTAÇÃO</h2>
 
-        @if (TempData["MensagemSucesso"] != null)
-        {
-            <div class="alert alert-success" role="alert">
-                @TempData["MensagemSucesso"]
-            </div>
-        }
-        
+		@if (TempData["MensagemSucesso"] != null)
+		{
+			<div class="alert alert-success" role="alert">
+				@TempData["MensagemSucesso"]
+			</div>
+		}
+
         <div class="container text-center">
             
             <form method="post" asp-controller="Agenda" asp-action="SalvarAgenda">
@@ -53,4 +50,40 @@
             </form>
         </div>
         </div>
+
+    <!-- TABELA DE HORÁRIOS SALVOS -->
+    @if (Model != null && Model.Any())
+    {
+        <div class="container text-center" style="margin-top: 30px;">
+            <h4>Horários Salvos</h4>
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Horário Matutino</th>
+                        <th>Horário Vespertino</th>
+                        <th>Horário Noturno</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var agenda in Model)
+                    {
+                        <tr>
+                            <td>@agenda.Id</td>
+                            <td>@(agenda.HorarioMatutino ?? "-")</td>
+                            <td>@(agenda.HorarioVespertino ?? "-")</td>
+                            <td>@(agenda.HorarioNoturno ?? "-")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="container text-center" style="margin-top: 30px;">
+            <p>Nenhum horário cadastrado ainda.</p>
+        </div>
+    }
+    </div>
 </main>

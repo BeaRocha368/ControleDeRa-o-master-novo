@@ -6,5 +6,8 @@ namespace ControleDeRacao.Data.Repositorio.Interfaces
     {
         Task SalvarAgendaAsync(Agenda agenda);
         Task<Agenda> ObterAgendaAsync();
+
+        Task<List<Agenda>> BuscarTodasAgendasAsync();
+
     }
 }

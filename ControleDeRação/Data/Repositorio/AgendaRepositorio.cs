@@ -25,22 +25,28 @@ namespace ControleDeRacao.Data.Repositorio
 
         public async Task SalvarAgendaAsync(Agenda agenda)
         {
-            var agendaExistente = await _bancoContexto.Agenda.FirstOrDefaultAsync();
+            //var agendaExistente = await _bancoContexto.Agenda.FirstOrDefaultAsync();
 
-            if (agendaExistente != null)
-            {
-                agendaExistente.HorarioMatutino = agenda.HorarioMatutino;
-                agendaExistente.HorarioVespertino = agenda.HorarioVespertino;
-                agendaExistente.HorarioNoturno = agenda.HorarioNoturno;
-                _bancoContexto.Agenda.Update(agendaExistente);
-            }
-            else
-            {
+            //if (agendaExistente != null)
+            //{
+            //    agendaExistente.HorarioMatutino = agenda.HorarioMatutino;
+            //    agendaExistente.HorarioVespertino = agenda.HorarioVespertino;
+            //    agendaExistente.HorarioNoturno = agenda.HorarioNoturno;
+            //    _bancoContexto.Agenda.Update(agendaExistente);
+            //}
+            //else
+           // {
                 await _bancoContexto.Agenda.AddAsync(agenda);
-            }
+           // }
 
             await _bancoContexto.SaveChangesAsync();
         }
+
+        public async Task<List<Agenda>> BuscarTodasAgendasAsync()
+        {
+            return await _bancoContexto.Agenda.OrderByDescending(a => a.Id).ToListAsync();
+        }
+
 
     }
 }

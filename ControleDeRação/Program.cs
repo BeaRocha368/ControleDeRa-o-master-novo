@@ -15,7 +15,6 @@ builder.Services.AddDbContext<BancoContexto>(options => options.UseSqlServer(con
 
 builder.Services.AddScoped<IPetRepositorio, PetRepositorio>();
 builder.Services.AddScoped<IRacaoRepositorio, RacaoRepositorio>();
-builder.Services.AddScoped<IAlimentacaoRepositorio, AlimentacaoRepositorio>();
 builder.Services.AddScoped<IAgendaRepositorio, AgendaRepositorio>();
 
 var app = builder.Build();
